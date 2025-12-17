@@ -54,25 +54,6 @@ typedef struct{
 }Player;
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 //init.c//
 void init(Type Types[],Move Moves[],Pokemon Pokemons[],Player *Player1,Player *Player2);
 void initTypes(Type Types[],const char *fileNAME);
@@ -81,8 +62,6 @@ void initPokemons(Pokemon Pokemons[],Type Types[],Move Moves[], const char *file
 
 
 //game.c//
-
-
 void game(Player *Player1,Player *Player2);
 void round(Player *Player1,Player *Platyer2);
 void Damage(Player *Player1 ,Player *Player2, int Player1Action,int Player1Choice,int Player2Action,int Player2Choice);
