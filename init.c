@@ -19,16 +19,16 @@ Type getTypeWithName(Type Types[], const char *name)
     strcpy(none.name, "None");
     for (int i = 0; i < TYPE_EFF_PER_TYPE; i++)
     {
-        strcpy(none.typeeffects[i].attackName, "None");
-        strcpy(none.typeeffects[i].defenseName, Types[i].name); // not super critical
-        none.typeeffects[i].multiplier = 1.0;
+        strcpy(none.effects[i].attackName, "None");
+        strcpy(none.effects[i].defName, Types[i].name); // not super critical
+        none.effects[i].multiplier = 1.0;
     }
     return none;
 }
 
 void Types(Type Types[], const char *fileName)
 {
-    FILE *f = fopen(filename, "r");
+    FILE *f = fopen(fileName, "r");
     if (!f)
     {
         perror("types.txt");
@@ -53,15 +53,15 @@ void Types(Type Types[], const char *fileName)
                 printf("types parse error\n");
                 exit(1);
             }
-            strcpy(Types[t].typeeffects[e].attackName, attack);
-            strcpy(Types[t].typeeffects[e].defenseName, defense);
-            Types[t].typeeffects[e].multiplier = mult;
+            strcpy(Types[t].effects[e].attackName, attack);
+            strcpy(Types[t].effects[e].defName, defense);
+            Types[t].effects[e].multiplier = mult;
         }
     }
     fclose(f);
 }
 
-MoveCategory parseCategory(const char *s)
+Category parseCategory(const char *s)
 {
     if (strcmp(s, "Physical") == 0)
         return PHYSICAL;
@@ -134,9 +134,9 @@ void initializePokemons(Pokemon Pokemons[], Type Types[], Move Moves[], const ch
             strcpy(Pokemons[i].types[1].name, "None");
             for (int k = 0; k < TYPE_EFF_PER_TYPE; k++)
             {
-                strcpy(Pokemons[i].types[1].typeeffects[k].attackName, "None");
-                strcpy(Pokemons[i].types[1].typeeffects[k].defenseName, Types[k].name);
-                Pokemons[i].types[1].typeeffects[k].multiplier = 1.0;
+                strcpy(Pokemons[i].types[1].effects[k].attackName, "None");
+                strcpy(Pokemons[i].types[1].effects[k].defName, Types[k].name);
+                Pokemons[i].types[1].effects[k].multiplier = 1.0;
             }
         }
         else
@@ -145,7 +145,7 @@ void initializePokemons(Pokemon Pokemons[], Type Types[], Move Moves[], const ch
         }
 
         Pokemons[i].maxHP = hp;
-        Pokemons[i].currentHP = hp;
+        Pokemons[i].currHp = hp;
         Pokemons[i].attack = atk;
         Pokemons[i].defense = def;
         Pokemons[i].spAtk = spA;
