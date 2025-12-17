@@ -71,19 +71,44 @@ int nextAliveInd(Player *p, int startFrom){
         printf("\nSELECT A POKEMON TO SWITCH: ");
         do{
             scanf("%d",&x);
-            if (x<1 || x>6)
-            {
+            if (x<1 || x>6) {
                 continue;
             }
-            if (*p->Pokemons[x-1].currHp<=0)x=-1;
-            {
-                /* code */
-            }
-            
-            
+            if (p->Pokemons[x-1].currHp<=0) {
+              x=-1;
+       }} while(x<1 || x>6);
+                
+            return x-1;
+             
         }
-    }
+    
+void roundPlay(Player *Player1,Player *Player2){
+int k1=askAction(Player1);
+int k2=askAction(Player2);
+int c1,c2;
+if (k1==1)c1=askMoveInd(&Player1->Pokemons[Player1->currInd]);
+else c1=askPokemonInd(Player1);
 
+if (k2=1)c1=askMoveInd(&Player2->Pokemons[Player2->currInd]);
+else c2=askPokemonInd(Player2);
+
+applyDamage(Player1,Player2,k1,c1,k2,c2);
+
+if (Player1->Pokemons[Player2->currInd].currHp<=0)
+{
+int ni=nextAliveInd(Player1,Player1->currInd+1);
+if (ni!=-1)Player1->currInd=ni;
+}
+if (Player2->Pokemons[Player1->currInd].currHp<=0)
+{
+int ni=nextAliveInd(Player2,Player2->currInd+1);
+if (ni!=-1)Player2->currInd=ni;
+}
+
+
+
+
+}
     
 
 
@@ -128,6 +153,14 @@ void applyDamage(Player *Player1, Player *Player2,
     if (Player1Action == 2 && Player2Action == 2) return;
 
     int p1First = (pk1->speed >= pk2->speed);
+                
+    if(p1First){
+        if
+    }
+
+
+
+
    }
 
 static void doAttack(Player *attP,Player *defP,int moveIndex){
@@ -144,13 +177,7 @@ static void doAttack(Player *attP,Player *defP,int moveIndex){
         }
     
 }   
-if(Player1First)
-{
-if (player1)
-{
-    /* code */
-}
-}
+
 
 
 
