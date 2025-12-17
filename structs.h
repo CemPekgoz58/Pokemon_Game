@@ -38,7 +38,7 @@ typedef struct{
     double power;
 }Move;
 
-typedef struct structs{
+typedef struct {
     char name[64];
     Type types[2];
     int maxHP;
@@ -56,6 +56,9 @@ typedef struct{
 
 //init.c//
 void init(Type Types[],Move Moves[],Pokemon Pokemons[],Player *Player1,Player *Player2);
+
+
+
 void initTypes(Type Types[],const char *fileNAME);
 void initMoves(Move Moves[],Type Types[], const char *fileNAME);
 void initPokemons(Pokemon Pokemons[],Type Types[],Move Moves[], const char *fileNAME);
@@ -63,7 +66,7 @@ void initPokemons(Pokemon Pokemons[],Type Types[],Move Moves[], const char *file
 
 //game.c//
 void game(Player *Player1,Player *Player2);
-void round(Player *Player1,Player *Platyer2);
+void roundPlay(Player *Player1,Player *Player2);
 void Damage(Player *Player1 ,Player *Player2, int Player1Action,int Player1Choice,int Player2Action,int Player2Choice);
 
 
@@ -71,6 +74,6 @@ void Damage(Player *Player1 ,Player *Player2, int Player1Action,int Player1Choic
 int findTypeIndex(Type Types[],const char *name);
 Type getTypeByName(Type Types[],const char *name);
 int Alive(Pokemon *poke);
-int NextAlive(Player *p,int startFrom );
+int NextAliveInd(Player *p,int startFrom );
 
 #endif

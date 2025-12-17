@@ -10,7 +10,7 @@ int findTypeIndex(Type Types[], const char *name)
     return -1;
 }
 
-Type getTypeWithName(Type Types[], const char *name)
+Type getTypeByName(Type Types[], const char *name)
 {
     int idx = findTypeIndex(Types, name);
     if (idx >= 0)
@@ -26,7 +26,7 @@ Type getTypeWithName(Type Types[], const char *name)
     return none;
 }
 
-void Types(Type Types[], const char *fileName)
+void initTypes(Type Types[], const char *fileName)
 {
     FILE *f = fopen(fileName, "r");
     if (!f)
@@ -68,7 +68,7 @@ Category parseCategory(const char *s)
     return SPECIAL;
 }
 
-void Moves(Move Moves[], Type Types[], const char *filename)
+void initMoves(Move Moves[], Type Types[], const char *filename)
 {
     FILE *f = fopen(filename, "r");
     if (!f)
@@ -105,7 +105,7 @@ static int containsInt(const int arr[], int n, int x)
     return 0;
 }
 
-void initializePokemons(Pokemon Pokemons[], Type Types[], Move Moves[], const char *filename)
+void initPokemons(Pokemon Pokemons[], Type Types[], Move Moves[], const char *filename)
 {
     FILE *f = fopen(filename, "r");
     if (!f)
@@ -167,4 +167,40 @@ void initializePokemons(Pokemon Pokemons[], Type Types[], Move Moves[], const ch
     }
 
     fclose(f);
+}
+
+
+void init(Type Types[],Move Moves[],Pokemon Pokemons[],Player *Player1,Player *Player2){
+srand((unsigned)time(NULL));
+initTypes(Types ,"types.txt");
+initMoves(Moves,Types,"moves.txt");
+initPokemons(Pokemons,Types,Moves,"pokemon.txt");
+
+strcpy((*Player1).name,"Player1");
+strcpy((*Player2).name,"Player2");
+
+int used[POKE_CO]={0};
+int used1[TEAM_SIZE],used2[TEAM_SIZE];
+int u1=0, u2=0;
+for (int i = 0; i < TEAM_SIZE; i++)
+{
+    int r;
+    do {
+        r = rand() % POKE_CO;
+    } while (containsInt(used1, u1, r));
+    used1[u1++] = r;
+    Player1->Pokemons[i] = Pokemons[r];
+}
+
+for (int i = 0; i < TEAM_SIZE; i++)
+{
+    int r;
+    do {
+        r = rand() % POKE_CO;
+    } while (containsInt(used2, u2, r));
+    used2[u2++] = r;
+    Player2->Pokemons[i] = Pokemons[r];
+}
+
+
 }
