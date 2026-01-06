@@ -23,19 +23,24 @@ static int anyAlive(Player *p) {
 
 static int askAction(Player *p) {
     int x;
+
     while (1) {
-        printf("\n%s, your action (1: Attack, 2: Switch): ", p->name);
-        if (scanf("%d", &x) != 1) { // sayı girilmezse buffer'ı temizle
-            printf("--- INVALID INPUT! Please enter a number ---\n");
-            while(getchar() != '\n'); // buffer temizleme
+        printf("\n%s, your action (1: Attack, 2: Change Pokemon): ", p->name);
+
+        if (scanf("%d", &x) != 1) {
+            printf("Invalid input!\n");
+            while (getchar() != '\n');
             continue;
         }
-        if (x == 1 || x == 2) return x;
-        else {
-            printf("--- INVALID CHOICE: %d is not an option! ---\n", x);
-        }
+
+        if (x == 1 || x == 2)
+            return x;
+
+        printf("Invalid choice: %d\n", x);
+        while (getchar() != '\n');
     }
 }
+
 
 static int askMoveInd(Pokemon *poke) {
     int x;
@@ -117,7 +122,6 @@ static void doAttack(Player *attP, Player *defP, int moveIndex, Type *allTypes) 
     Move *mv = &att->moves[moveIndex];
 
     int before = def->currHp;
-    // Artik allTypes dizisini buraya gönderiyoruz:
     int dmg = calculateDamage(att, def, mv, allTypes); 
 
     def->currHp -= dmg;
@@ -132,7 +136,6 @@ static void doAttack(Player *attP, Player *defP, int moveIndex, Type *allTypes) 
     }
 }
 void applyDamage(Player *P1, Player *P2, int a1, int choice1, int a2, int choice2, Type *allTypes) {
-    // Switch varsa uygula önce
     if (a1 == 2) P1->currInd = choice1;
     if (a2 == 2) P2->currInd = choice2;
 
@@ -140,8 +143,8 @@ void applyDamage(Player *P1, Player *P2, int a1, int choice1, int a2, int choice
     Pokemon *p2 = &P2->Pokemons[P2->currInd];
 
     if (a1 == 1 && a2 == 1) { 
-        int move1 = choice1; // move index
-        int move2 = choice2; // move index
+        int move1 = choice1; 
+        int move2 = choice2;
         if (p1->speed >= p2->speed) {
             doAttack(P1, P2, move1, allTypes);
             if (p2->currHp > 0) doAttack(P2, P1, move2, allTypes);
@@ -176,10 +179,8 @@ void roundPlay(Player *P1, Player *P2, Type *allTypes) {
     int c2 = (a2 == 1) ? askMoveInd(&P2->Pokemons[P2->currInd])
                         : askPokemonInd(P2);
 
-    // Saldırı ve switch uygulaması
     applyDamage(P1, P2, a1, c1, a2, c2, allTypes);
 
-    // Fainted Pokémon kontrolü ve sonraki Pokémon çağrısı
     if (P1->Pokemons[P1->currInd].currHp <= 0) {
         int ni = nextAliveInd(P1, P1->currInd + 1);
         if (ni != -1) {
